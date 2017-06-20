@@ -13,12 +13,12 @@ namespace Microsoft.Azure.Devices.Gateway
         /// <summary>
         ///   Message Content.
         /// </summary>
-        public byte[] Content { get; }
+        public byte[] Content { get; private set; } //CS0840
 
         /// <summary>
         ///    Message Properties.
         /// </summary>
-        public Dictionary<string, string> Properties { get; }
+        public Dictionary<string, string> Properties { get; private set; } //CS0840
 
         private bool readNullTerminatedString(MemoryStream bis, out byte[] output)
         {

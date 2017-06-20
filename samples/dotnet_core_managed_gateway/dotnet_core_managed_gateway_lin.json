@@ -21,6 +21,17 @@
                 }
             },
             "args": "module configuration"
+    },
+    {
+            "name": "dotnet_helloworld_module",
+            "loader": {
+                "name": "dotnetcore",
+                "entrypoint": {
+                    "assembly.name": "HelloWorldModule",
+                    "entry.type": "HelloWorldModule.DotNetHelloWorldModule"
+                }
+            },
+            "args": "module configuration"
     }
   ],
   "links": [

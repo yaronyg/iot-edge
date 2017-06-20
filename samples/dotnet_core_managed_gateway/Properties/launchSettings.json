@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "dotnet_core_managed_gateway": {
+      "commandName": "Project",
+      "commandLineArgs": "dotnet_core_managed_gateway_win.json"
+    }
+  }
+}

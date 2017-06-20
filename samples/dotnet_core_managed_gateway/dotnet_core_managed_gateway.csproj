@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\bindings\dotnetcore\dotnet-core-binding\Microsoft.Azure.Devices.Gateway\Microsoft.Azure.Devices.Gateway.csproj" />
+    <ProjectReference Include="..\dotnet_core_module_sample\modules\HelloWorldModule\HelloWorldModule.csproj" />
     <ProjectReference Include="..\dotnet_core_module_sample\modules\PrinterModule\PrinterModule.csproj" />
     <ProjectReference Include="..\dotnet_core_module_sample\modules\SensorModule\SensorModule.csproj" />
   </ItemGroup>

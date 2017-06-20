@@ -294,6 +294,7 @@ set(dotnet_core_managed_binding_dll ${CMAKE_CURRENT_BINARY_DIR}/../bindings/dotn
 set(dotnet_core_e2etest_module_dll ${CMAKE_CURRENT_BINARY_DIR}/../bindings/dotnetcore/dotnet-core-binding/E2ETestModule/bin/${CMAKE_BUILD_TYPE}/netstandard1.3/E2ETestModule.dll CACHE INTERNAL "The location of the E2ETestModule.dll" FORCE)
 set(dotnet_core_sensor_module_dll ${CMAKE_CURRENT_BINARY_DIR}/../samples/dotnet_core_module_sample/modules/SensorModule/bin/${CMAKE_BUILD_TYPE}/netstandard1.3/SensorModule.dll CACHE INTERNAL "The location of the SensorModule.dll" FORCE)
 set(dotnet_core_printer_module_dll ${CMAKE_CURRENT_BINARY_DIR}/../samples/dotnet_core_module_sample/modules/PrinterModule/bin/${CMAKE_BUILD_TYPE}/netstandard1.3/PrinterModule.dll CACHE INTERNAL "The location of the PrinterModule.dll" FORCE)
+set(dotnet_core_helloworld_module_dll ${CMAKE_CURRENT_BINARY_DIR}/../samples/dotnet_core_module_sample/modules/HelloWorldModule/bin/${CMAKE_BUILD_TYPE}/netstandard1.3/HelloWorldModule.dll CACHE INTERNAL "The location of the HelloWorldModule.dll" FORCE)
 
 function(install_binaries whatIsBuilding whatIsBuildingLocation whatIsBinaryLocation)
   add_custom_command(TARGET ${whatIsBuilding} POST_BUILD

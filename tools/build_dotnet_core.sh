@@ -48,6 +48,7 @@ $binding_path/Microsoft.Azure.Devices.Gateway/Microsoft.Azure.Devices.Gateway.cs
 $binding_path/E2ETestModule/E2ETestModule.csproj
 $sample_modules_path/PrinterModule/PrinterModule.csproj
 $sample_modules_path/SensorModule/SensorModule.csproj
+$sample_modules_path/HelloWorldModule/HelloWorldModule.csproj
 $samples_path/dotnet_core_managed_gateway/dotnet_core_managed_gateway.csproj"
 
 projects_to_test="$binding_path/Microsoft.Azure.Devices.Gateway.Tests/Microsoft.Azure.Devices.Gateway.Tests.csproj"

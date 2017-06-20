@@ -1,0 +1,11 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard1.3</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\bindings\dotnetcore\dotnet-core-binding\Microsoft.Azure.Devices.Gateway\Microsoft.Azure.Devices.Gateway.csproj" />
+  </ItemGroup>
+
+</Project>

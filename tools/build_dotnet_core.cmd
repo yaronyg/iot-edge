@@ -52,6 +52,7 @@ set projects-to-build=^
     "%binding-path%\E2ETestModule\E2ETestModule.csproj" ^
     "%sample-modules-path%\PrinterModule\PrinterModule.csproj" ^
     "%sample-modules-path%\SensorModule\SensorModule.csproj" ^
+    "%sample-modules-path%\HelloWorldModule\HelloWorldModule.csproj" ^
     "%samples-path%\dotnet_core_managed_gateway\dotnet_core_managed_gateway.csproj"
 
 set projects-to-test=^
