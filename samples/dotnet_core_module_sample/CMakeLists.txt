@@ -38,7 +38,7 @@ install_binaries(dotnet_core_module_sample ${CMAKE_CURRENT_BINARY_DIR}/$(Configu
 # install_binaries(dotnet_core_module_sample ${CMAKE_CURRENT_BINARY_DIR}/$(Configuration) ${dotnet_core_printer_module_dll} )
 # install_binaries(dotnet_core_module_sample ${CMAKE_CURRENT_BINARY_DIR}/$(Configuration) ${dotnet_core_helloworld_module_dll} )
 
-file(GLOB module_dir_names ${CMAKE_CURRENT_BINARY_DIR}/../samples/dotnet_core_module_sample/modules/*)
+file(GLOB module_dir_names ${CMAKE_CURRENT_BINARY_DIR}/../../../samples/dotnet_core_module_sample/modules/*)
 string(LENGTH "module" length_of_string_module)
 foreach(module_path ${module_dir_names})
   get_filename_component(module_name ${module_path} NAME)
