@@ -34,9 +34,19 @@ install_broker(dotnet_core_module_sample ${CMAKE_CURRENT_BINARY_DIR}/$(Configura
 copy_gateway_dll(dotnet_core_module_sample ${CMAKE_CURRENT_BINARY_DIR}/$(Configuration) )
 
 install_binaries(dotnet_core_module_sample ${CMAKE_CURRENT_BINARY_DIR}/$(Configuration) ${dotnet_core_managed_binding_dll} )
-install_binaries(dotnet_core_module_sample ${CMAKE_CURRENT_BINARY_DIR}/$(Configuration) ${dotnet_core_sensor_module_dll} )
-install_binaries(dotnet_core_module_sample ${CMAKE_CURRENT_BINARY_DIR}/$(Configuration) ${dotnet_core_printer_module_dll} )
-install_binaries(dotnet_core_module_sample ${CMAKE_CURRENT_BINARY_DIR}/$(Configuration) ${dotnet_core_helloworld_module_dll} )
+# install_binaries(dotnet_core_module_sample ${CMAKE_CURRENT_BINARY_DIR}/$(Configuration) ${dotnet_core_sensor_module_dll} )
+# install_binaries(dotnet_core_module_sample ${CMAKE_CURRENT_BINARY_DIR}/$(Configuration) ${dotnet_core_printer_module_dll} )
+# install_binaries(dotnet_core_module_sample ${CMAKE_CURRENT_BINARY_DIR}/$(Configuration) ${dotnet_core_helloworld_module_dll} )
+
+file(GLOB module_dir_names ${CMAKE_CURRENT_BINARY_DIR}/../samples/dotnet_core_module_sample/modules/*)
+string(LENGTH "module" length_of_string_module)
+foreach(module_path ${module_dir_names})
+  get_filename_component(module_name ${module_path} NAME)
+  string(LENGTH ${module_name} module_name_length)
+  math(EXPR prefix_length "${module_name_length} - ${length_of_string_module}")
+  string(SUBSTRING ${module_name} 0 ${prefix_length} module_prefix)
+  install_binaries(dotnet_core_module_sample ${CMAKE_CURRENT_BINARY_DIR}/$(Configuration) ${dotnet_core_${module_prefix}_module_dll})
+endforeach()
 
 if(WIN32)
     install_binaries(dotnet_core_module_sample ${CMAKE_CURRENT_BINARY_DIR}/$(Configuration) ${dotnet_core_host_binding_dll} )

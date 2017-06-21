@@ -47,13 +47,18 @@ set binding-path="%build-root%\bindings\dotnetcore\dotnet-core-binding"
 set samples-path="%build-root%\samples"
 set sample-modules-path="%samples-path%\dotnet_core_module_sample\modules"
 
+    REM "%sample-modules-path%\PrinterModule\PrinterModule.csproj" ^
+    REM "%sample-modules-path%\SensorModule\SensorModule.csproj" ^
+    REM "%sample-modules-path%\HelloWorldModule\HelloWorldModule.csproj" ^
+
 set projects-to-build=^
     "%binding-path%\Microsoft.Azure.Devices.Gateway\Microsoft.Azure.Devices.Gateway.csproj" ^
     "%binding-path%\E2ETestModule\E2ETestModule.csproj" ^
-    "%sample-modules-path%\PrinterModule\PrinterModule.csproj" ^
-    "%sample-modules-path%\SensorModule\SensorModule.csproj" ^
-    "%sample-modules-path%\HelloWorldModule\HelloWorldModule.csproj" ^
     "%samples-path%\dotnet_core_managed_gateway\dotnet_core_managed_gateway.csproj"
+
+for /f "tokens=*" %%G in ('dir /b %sample-modules-path%') do (
+    set projects-to-build=!projects-to-build! %sample-modules-path%\%%G
+)
 
 set projects-to-test=^
     "%binding-path%\Microsoft.Azure.Devices.Gateway.Tests\Microsoft.Azure.Devices.Gateway.Tests.csproj"

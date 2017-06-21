@@ -46,10 +46,12 @@ sample_modules_path="$samples_path/dotnet_core_module_sample/modules"
 projects_to_build="
 $binding_path/Microsoft.Azure.Devices.Gateway/Microsoft.Azure.Devices.Gateway.csproj
 $binding_path/E2ETestModule/E2ETestModule.csproj
-$sample_modules_path/PrinterModule/PrinterModule.csproj
-$sample_modules_path/SensorModule/SensorModule.csproj
-$sample_modules_path/HelloWorldModule/HelloWorldModule.csproj
 $samples_path/dotnet_core_managed_gateway/dotnet_core_managed_gateway.csproj"
+
+for f in $sample_modules_path/*
+do
+  projects_to_build=$(printf "%s\n%s/$(basename $f).csproj" "$projects_to_build" "$f")
+done
 
 projects_to_test="$binding_path/Microsoft.Azure.Devices.Gateway.Tests/Microsoft.Azure.Devices.Gateway.Tests.csproj"
 

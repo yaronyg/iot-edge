@@ -292,9 +292,20 @@ set(dotnet_core_host_binding_so ${CMAKE_CURRENT_BINARY_DIR}/bindings/dotnetcore/
 
 set(dotnet_core_managed_binding_dll ${CMAKE_CURRENT_BINARY_DIR}/../bindings/dotnetcore/dotnet-core-binding/Microsoft.Azure.Devices.Gateway/bin/${CMAKE_BUILD_TYPE}/netstandard1.3/Microsoft.Azure.Devices.Gateway.dll CACHE INTERNAL "The location of the Microsoft.Azure.Devices.Gateway.dll" FORCE)
 set(dotnet_core_e2etest_module_dll ${CMAKE_CURRENT_BINARY_DIR}/../bindings/dotnetcore/dotnet-core-binding/E2ETestModule/bin/${CMAKE_BUILD_TYPE}/netstandard1.3/E2ETestModule.dll CACHE INTERNAL "The location of the E2ETestModule.dll" FORCE)
-set(dotnet_core_sensor_module_dll ${CMAKE_CURRENT_BINARY_DIR}/../samples/dotnet_core_module_sample/modules/SensorModule/bin/${CMAKE_BUILD_TYPE}/netstandard1.3/SensorModule.dll CACHE INTERNAL "The location of the SensorModule.dll" FORCE)
-set(dotnet_core_printer_module_dll ${CMAKE_CURRENT_BINARY_DIR}/../samples/dotnet_core_module_sample/modules/PrinterModule/bin/${CMAKE_BUILD_TYPE}/netstandard1.3/PrinterModule.dll CACHE INTERNAL "The location of the PrinterModule.dll" FORCE)
-set(dotnet_core_helloworld_module_dll ${CMAKE_CURRENT_BINARY_DIR}/../samples/dotnet_core_module_sample/modules/HelloWorldModule/bin/${CMAKE_BUILD_TYPE}/netstandard1.3/HelloWorldModule.dll CACHE INTERNAL "The location of the HelloWorldModule.dll" FORCE)
+# set(dotnet_core_sensor_module_dll ${CMAKE_CURRENT_BINARY_DIR}/../samples/dotnet_core_module_sample/modules/SensorModule/bin/${CMAKE_BUILD_TYPE}/netstandard1.3/SensorModule.dll CACHE INTERNAL "The location of the SensorModule.dll" FORCE)
+# set(dotnet_core_printer_module_dll ${CMAKE_CURRENT_BINARY_DIR}/../samples/dotnet_core_module_sample/modules/PrinterModule/bin/${CMAKE_BUILD_TYPE}/netstandard1.3/PrinterModule.dll CACHE INTERNAL "The location of the PrinterModule.dll" FORCE)
+# set(dotnet_core_helloworld_module_dll ${CMAKE_CURRENT_BINARY_DIR}/../samples/dotnet_core_module_sample/modules/HelloWorldModule/bin/${CMAKE_BUILD_TYPE}/netstandard1.3/HelloWorldModule.dll CACHE INTERNAL "The location of the HelloWorldModule.dll" FORCE)
+
+file(GLOB module_dir_names ${CMAKE_CURRENT_BINARY_DIR}/../samples/dotnet_core_module_sample/modules/*)
+string(LENGTH "module" length_of_string_module)
+foreach(module_path ${module_dir_names})
+  get_filename_component(module_name ${module_path} NAME)
+  string(LENGTH ${module_name} module_name_length)
+  math(EXPR prefix_length "${module_name_length} - ${length_of_string_module}")
+  string(SUBSTRING ${module_name} 0 ${prefix_length} module_prefix)
+  set(dotnet_core_${module_prefix}_module_dll ${CMAKE_CURRENT_BINARY_DIR}/../samples/dotnet_core_module_sample/modules/${module_name}/bin/${CMAKE_BUILD_TYPE}/netstandard1.3/${module_name}.dll CACHE INTERNAL "The location of the ${module_name}.dll" FORCE)
+endforeach()
+
 
 function(install_binaries whatIsBuilding whatIsBuildingLocation whatIsBinaryLocation)
   add_custom_command(TARGET ${whatIsBuilding} POST_BUILD
