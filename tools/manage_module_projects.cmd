@@ -18,7 +18,15 @@ set gateway_sln_path=..\bindings\dotnetcore\dotnet-core-binding\dotnet-core-bind
 set target_path=%build-root%\build\samples\dotnet_core_module_sample\Debug
 
 if "%1" equ "" goto usage
-if "%1" equ "--buildRun" goto build
+set buildAndRun=false
+if "%1" equ "--buildRun" (
+    set buildAndRun=true
+    goto buildRun
+)
+if "%1" equ "--build" (
+    set buildAndRun=false
+    goto buildRun
+)
 
 set command=%1
 
@@ -35,12 +43,13 @@ if "%command%" equ "--delete" goto delete
 :usage
 echo manage_module_projects.cmd [options]
 echo options:
-echo  --buildRun            Build and run gateway with all modules
+echo  --build            Build the modules and copy to the gateway project
+echo  --buildRun         Build and run gateway with all modules
 echo  --new ^<value^>      Create new module with name value (e.g. Printer or Sensor)
-echo  --delete ^<value^>      Delete existing module with name value (e.g. Printer or Sensor)
+echo  --delete ^<value^>   Delete existing module with name value (e.g. Printer or Sensor)
 goto :eof
 
-:build
+:buildRun
 for /f "tokens=*" %%G in ('dir /b %samples_modules_path%') do (
     set local_module_path=%samples_modules_path%\%%G
     set local_module_csproj_path=!local_module_path!\%%G.csproj
@@ -52,6 +61,7 @@ for /f "tokens=*" %%G in ('dir /b %samples_modules_path%') do (
     copy !source_pdb! %target_path%
 )
 
+if %buildAndRun% equ false goto :eof
 set config_path=%samples_path%\dotnet_core_managed_gateway\dotnet_core_managed_gateway_win.json
 %target_path%\dotnet_core_module_sample.exe %config_path%
 goto :eof
