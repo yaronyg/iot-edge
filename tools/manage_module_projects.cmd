@@ -52,8 +52,10 @@ goto :eof
 :buildRun
 for /f "tokens=*" %%G in ('dir /b %samples_modules_path%') do (
     set local_module_path=%samples_modules_path%\%%G
-    set local_module_csproj_path=!local_module_path!\%%G.csproj
-    dotnet build !local_module_csproj_path!
+    REM We are cd'ing in because the project could be csproj or fsproj
+    pushd !local_module_path!
+    dotnet build
+    popd
     set base_source_path=!local_module_path!\bin\Debug\netstandard1.3\%%G
     set source_dll=!base_source_path!.dll
     set source_pdb=!base_source_path!.pdb
