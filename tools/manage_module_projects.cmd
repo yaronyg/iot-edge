@@ -75,14 +75,15 @@ set buildAndRun=false
 rmdir /s/q %cmake_root%
 
 :buildRun
+if NOT EXIST %build-root%\tools\switch2 (
+    set netstandard=netstandard1.3
+    set dot_net_version=1.1.1
+) else (
+    set netstandard=netstandard2.0
+    set dot_net_version=2.0.0-preview1-002111-00
+)
+
 if NOT EXIST %cmake_root% (
-    if NOT EXIST %build-root%\tools\switch2 (
-        set netstandard=netstandard1.3
-        set dot_net_version=1.1.1
-    ) else (
-        set netstandard=netstandard2.0
-        set dot_net_version=2.0.0-preview1-002111-00
-    )
     %build-root%\tools\build.cmd --platform x64 --enable-dotnet-core-binding
 ) else (
     for /f "tokens=*" %%G in ('dir /b %samples_modules_path%') do (
@@ -91,7 +92,7 @@ if NOT EXIST %cmake_root% (
         pushd !local_module_path!
         dotnet build
         popd
-        set base_source_path=!local_module_path!\bin\Debug\netstandard1.3\%%G
+        set base_source_path=!local_module_path!\bin\Debug\%netstandard%\%%G
         set source_dll=!base_source_path!.dll
         set source_pdb=!base_source_path!.pdb
         copy !source_dll! %target_path%
