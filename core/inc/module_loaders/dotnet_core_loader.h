@@ -26,8 +26,6 @@ extern "C"
 #define CORECLR_DLL                                                   "\\coreclr.dll"
 #define END_PATH_WINDOWS                                              "\\"
 
-//#define DOT_NET_VERSION                                               "1.1.1"
-
 #define UNIX_DOTNET_PATH                                              "/usr/share/dotnet/shared/Microsoft.NETCore.App/"
 #define LIBCORECLR_SO                                                 "/libcoreclr.so"
 #define END_PATH_UNIX                                                 "/"

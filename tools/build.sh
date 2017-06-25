@@ -32,11 +32,11 @@ fi
 
 if [ -e "$build_root/tools/switch2" ]
 then
-     netstandard=netstandard2.0
-     dot_net_version=2.0.0-preview1-002111-00
+     export netstandard="netstandard2.0"
+     export dot_net_version="2.0.0-preview1-002111-00"
 else
-     netstandard=netstandard1.3
-     dot_net_version=1.1.1
+     export netstandard="netstandard1.3"
+     export dot_net_version="1.1.1"
 fi
 
 usage ()
