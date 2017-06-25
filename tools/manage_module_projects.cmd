@@ -10,6 +10,8 @@ set build-root=%current-path%\..
 rem // resolve to fully qualified path
 for %%i in ("%build-root%") do set build-root=%%~fi
 
+set cmake_root=%build-root%\build
+
 set samples_path=%build-root%\samples
 set samples_modules_path=%samples_path%\dotnet_core_module_sample\modules
 set managed_gateway_csproj_path=..\samples\dotnet_core_managed_gateway\dotnet_core_managed_Gateway.csproj
@@ -27,6 +29,8 @@ if "%1" equ "--build" (
     set buildAndRun=false
     goto buildRun
 )
+
+if "%1" equ "--switch" goto switch
 
 set command=%1
 
@@ -47,20 +51,52 @@ echo  --build            Build the modules and copy to the gateway project
 echo  --buildRun         Build and run gateway with all modules
 echo  --new ^<value^>      Create new module with name value (e.g. Printer or Sensor)
 echo  --delete ^<value^>   Delete existing module with name value (e.g. Printer or Sensor)
+echo  --switch ^<value^>   Switch .net version between two supported values: 1 (for .net 1.1.1) and 2 (for .net 2.0 RC)
 goto :eof
 
+:switch
+shift
+set version=0
+if "%1" equ "1" (
+    set version=1
+    del /Q %build-root%\tools\switch2
+)
+if "%1" equ "2" (
+    set version=2
+    echo Flag to use .net 2.0 > %build-root%\tools\switch2
+)
+if "%version%" equ "0" (
+    echo version MUST be 1 or 2
+    goto :usage
+)
+
+Powershell.exe -executionpolicy remotesigned -File %build-root%\tools\change_dotnet_core_version.ps1 -dotnet_version %version% -root_path %build-root%
+set buildAndRun=false
+rmdir /s/q %cmake_root%
+
 :buildRun
-for /f "tokens=*" %%G in ('dir /b %samples_modules_path%') do (
-    set local_module_path=%samples_modules_path%\%%G
-    REM We are cd'ing in because the project could be csproj or fsproj
-    pushd !local_module_path!
-    dotnet build
-    popd
-    set base_source_path=!local_module_path!\bin\Debug\netstandard1.3\%%G
-    set source_dll=!base_source_path!.dll
-    set source_pdb=!base_source_path!.pdb
-    copy !source_dll! %target_path%
-    copy !source_pdb! %target_path%
+if NOT EXIST %cmake_root% (
+    if NOT EXIST %build-root%\tools\switch2 (
+        set netstandard=netstandard1.3
+        set dot_net_version=1.1.1
+    ) else (
+        set netstandard=netstandard2.0
+        set dot_net_version=2.0.0-preview1-002111-00
+    )
+    %build-root%\tools\build.cmd --platform x64 --enable-dotnet-core-binding
+) else (
+    for /f "tokens=*" %%G in ('dir /b %samples_modules_path%') do (
+        set local_module_path=%samples_modules_path%\%%G
+        REM We are cd'ing in because the project could be csproj or fsproj
+        pushd !local_module_path!
+        dotnet build
+        popd
+        set base_source_path=!local_module_path!\bin\Debug\netstandard1.3\%%G
+        set source_dll=!base_source_path!.dll
+        set source_pdb=!base_source_path!.pdb
+        copy !source_dll! %target_path%
+        copy !source_pdb! %target_path%
+    )
 )
 
 if %buildAndRun% equ false goto :eof
@@ -74,7 +110,12 @@ if EXIST %module_directory_path% (
     goto :eof
 )
 
-dotnet new classlib -o %module_directory_path% -f netstandard1.3
+set framework=
+if NOT EXIST %build-root%\tools\switch2 (
+    set framework=-f netstandard1.3
+)
+
+dotnet new classlib -o %module_directory_path% %framework%
 del %module_directory_path%\Class1.cs
 set module_cs_path=%module_directory_path%\DotNet%module_name%Module.cs
 copy %samples_modules_path%\HelloWorldModule\DotNetHelloWorldModule.cs %module_cs_path%
@@ -104,4 +145,4 @@ dotnet remove %managed_gateway_csproj_path% reference %module_csproj_path%
 dotnet sln %gateway_sln_path% remove %module_csproj_path%
 
 rmdir /s /q %module_directory_path%
-
+goto :eof

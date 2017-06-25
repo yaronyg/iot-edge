@@ -146,7 +146,7 @@ if(${enable_dotnet_core_binding})
     )
     # This symbol needs to be defined to cause this module loader to be
     # available for the gateway.
-    add_definitions(-DDOTNET_CORE_BINDING_ENABLED)
+    add_definitions(-DDOTNET_CORE_BINDING_ENABLED -DDOT_NET_VERSION=\"$ENV{dot_net_version}\")
     include_directories(../bindings/dotnetcore/inc)
 endif()
 

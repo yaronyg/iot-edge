@@ -20,18 +20,30 @@ extern "C"
 
 #define DOTNET_CORE_LOADER_NAME            "dotnetcore"
 
+#define WIN32_PROGRAM_FILES_PATH                                      "C:\\Program Files\\"
+#define WIN64_PROGRAM_FILES_PATH                                      "C:\\Program Files (x86)\\"
+#define WIN_DOTNET_PATH                                               "dotnet\\shared\\Microsoft.NETCore.App\\"
+#define CORECLR_DLL                                                   "\\coreclr.dll"
+#define END_PATH_WINDOWS                                              "\\"
+
+//#define DOT_NET_VERSION                                               "1.1.1"
+
+#define UNIX_DOTNET_PATH                                              "/usr/share/dotnet/shared/Microsoft.NETCore.App/"
+#define LIBCORECLR_SO                                                 "/libcoreclr.so"
+#define END_PATH_UNIX                                                 "/"
+
 #ifdef _WIN64
 #define DOTNET_CORE_BINDING_MODULE_NAME                                "dotnetcore.dll"
-#define DOTNET_CORE_CLR_PATH_DEFAULT                                   "C:\\Program Files\\dotnet\\shared\\Microsoft.NETCore.App\\1.1.1\\coreclr.dll"
-#define DOTNET_CORE_TRUSTED_PLATFORM_ASSEMBLIES_LOCATION_DEFAULT       "C:\\Program Files\\dotnet\\shared\\Microsoft.NETCore.App\\1.1.1\\"
+#define DOTNET_CORE_CLR_PATH_DEFAULT                                   WIN32_PROGRAM_FILES_PATH WIN_DOTNET_PATH DOT_NET_VERSION CORECLR_DLL
+#define DOTNET_CORE_TRUSTED_PLATFORM_ASSEMBLIES_LOCATION_DEFAULT       WIN32_PROGRAM_FILES_PATH WIN_DOTNET_PATH DOT_NET_VERSION END_PATH_WINDOWS
 #elif WIN32
 #define DOTNET_CORE_BINDING_MODULE_NAME                                "dotnetcore.dll"
-#define DOTNET_CORE_CLR_PATH_DEFAULT                                   "C:\\Program Files (x86)\\dotnet\\shared\\Microsoft.NETCore.App\\1.1.1\\coreclr.dll"
-#define DOTNET_CORE_TRUSTED_PLATFORM_ASSEMBLIES_LOCATION_DEFAULT       "C:\\Program Files (x86)\\dotnet\\shared\\Microsoft.NETCore.App\\1.1.1\\"
+#define DOTNET_CORE_CLR_PATH_DEFAULT                                   WIN64_PROGRAM_FILES_PATH WIN_DOTNET_PATH DOT_NET_VERSION CORECLR_DLL
+#define DOTNET_CORE_TRUSTED_PLATFORM_ASSEMBLIES_LOCATION_DEFAULT       WIN64_PROGRAM_FILES_PATH WIN_DOTNET_PATH DOT_NET_VERSION END_PATH_WINDOWS
 #else
 #define DOTNET_CORE_BINDING_MODULE_NAME                                "libdotnetcore.so"
-#define DOTNET_CORE_CLR_PATH_DEFAULT                                   "/usr/share/dotnet/shared/Microsoft.NETCore.App/1.1.1/libcoreclr.so"
-#define DOTNET_CORE_TRUSTED_PLATFORM_ASSEMBLIES_LOCATION_DEFAULT       "/usr/share/dotnet/shared/Microsoft.NETCore.App/1.1.1/"
+#define DOTNET_CORE_CLR_PATH_DEFAULT                                   UNIX_DOTNET_PATH DOT_NET_VERSION LIBCORECLR_SO
+#define DOTNET_CORE_TRUSTED_PLATFORM_ASSEMBLIES_LOCATION_DEFAULT       UNIX_DOTNET_PATH DOT_NET_VERSION END_PATH_UNIX
 #endif
 
 #define DOTNET_CORE_CLR_PATH_KEY                                "binding.coreclrpath"
