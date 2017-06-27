@@ -84,7 +84,7 @@ if NOT EXIST %build-root%\tools\switch2 (
 )
 
 if NOT EXIST %cmake_root% (
-    %build-root%\tools\build.cmd --platform x64 --enable-dotnet-core-binding
+    %build-root%\tools\build.cmd --platform x64 --enable-dotnet-core-binding --disable-native-remote-modules
 ) else (
     for /f "tokens=*" %%G in ('dir /b %samples_modules_path%') do (
         set local_module_path=%samples_modules_path%\%%G
